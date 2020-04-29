@@ -1,0 +1,596 @@
+set nocompatible
+set cursorcolumn
+set number
+set tabstop=4                        
+"set cursorline
+filetype off
+
+call plug#begin('~/.vim/plugged')
+Plug 'ycm-core/YouCompleteMe'
+call plug#end()
+"YCMCONF
+set completeopt=menu,menuone
+let g:ycm_add_preview_to_completeopt=0
+let g:ycm_show_diagnostices_ui=0
+let g:ycm_min_num_identifier_candidate_chars=2
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+
+
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+"zhantie
+set nocompatible              " be iMproved, required
+filetype off                  " required
+ 
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+" let Vundle manage Vundle, required
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-scripts/Auto-Pairs'             " Autocomplete parens/quotes/brackets
+Plugin 'rking/ag.vim'                       " the_silver_searcher
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/syntastic'               " Syntastic for syntax checking
+Plugin 'Yggdroot/indentLine'                " Vertical lines showing indentation
+Plugin 'honza/vim-snippets'                 " snippets
+Plugin 'SirVer/ultisnips'                   " track the engine for snippets
+" All of your Plugins must be added before the following line
+"call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+"jieshu
+"Plugin 'VundleVim/Vundle.vim'
+" plugin on GitHub repo
+
+Plugin 'tpope/vim-fugitive'
+
+" plugin from http://vim-scripts.org/vim/scripts.html
+
+Plugin 'L9'
+
+" Git plugin not hosted on GitHub
+
+Plugin 'git://git.wincent.com/command-t.git'
+
+" git repos on your local machine (i.e. when working on your own plugin)
+
+Plugin 'file:///home/gmarik/path/to/plugin'
+
+" The sparkup vim script is in a subdirectory of this repo called vim.
+
+" Pass the path to set the runtimepath properly.
+
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+" Install L9 and avoid a Naming conflict if you've already installed a
+
+" different version somewhere else.
+
+Plugin 'ascenator/L9', {'name': 'newL9'}
+
+
+call vundle#end()
+
+filetype plugin indent on
+
+set smartindent                    "依据上面的对齐格式，智能的选择对齐方式，对于类似C语言编写上有用   
+
+set tabstop=4                        "设置tab键为4个空格，
+
+set shiftwidth =4                   "设置当行之间交错时使用4个空格     
+
+set ai!                                      " 设置自动缩进 
+
+set showmatch    
+
+
+"按F1一键编译并运行i
+"map <F1> :call CompileRunGcc()<CR>
+map <F1> :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+    exec "w"
+    if &filetype == 'c'
+        exec "!g++ % -o %<"
+        exec "!time ./%<"
+    elseif &filetype == 'cpp'
+        exec "!g++ % -o %<"
+        exec "!time ./%<"
+    elseif &filetype == 'java'
+        exec "!javac %"
+        exec "!time java %<"
+    elseif &filetype == 'sh'
+        :!time bash %
+    elseif &filetype == 'python'
+        exec "!time python2.7 %"
+    elseif &filetype == 'html'
+        exec "!firefox % &"
+    elseif &filetype == 'go'
+        exec "!go build %<"
+        exec "!time go run %"
+    elseif &filetype == 'mkd'
+        exec "!~/.vim/markdown.pl % > %.html &"
+        exec "!firefox %.html &"
+    endif
+endfunc
+"zhntie
+"语法高亮
+syntax on
+"显示行号
+set number
+"显示光标所在位置的行号和列号
+set ruler
+set wrap                      "自动折行
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set expandtab                  "将tab替换为相应数量空格
+set smartindent
+set backspace=2
+"设置取消备份 禁止临时文件生成
+set nobackup
+set noswapfile
+"设置匹配模式 类似当输入一个左括号时会匹配相应的那个右括号
+set showmatch
+"set laststatus=2   "命令行为两行
+"set fenc=utf-8     "文件编码
+"set mouse=a        "启用鼠标
+"set ignorecase     "忽略大小写
+"set cursorline     "突出显示当前行
+"set cursorcolumn   "突出显示当前列
+
+set fdm=marker
+
+"jj退出insert模式
+"inoremap <C-j> <ESC>
+inoremap jk <ESC>
+
+"nmap ,v "+p
+"vmap ,c "+y
+"nmap ,c "+y
+vmap ,c :w !pbcopy<CR><CR>
+nmap ,c :w !pbcopy<CR><CR>
+nmap ,v :r !pbpaste<CR><CR>
+
+
+"设置vundle
+set nocompatible              " be iMproved
+filetype off                  " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+filetype plugin indent on     " required!
+"vundle设置完毕
+call vundle#begin()
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'taglist.vim'
+let Tlist_Ctags_Cmd='ctags'
+let Tlist_Show_One_File=1               "不同时显示多个文件的tag，只显示当前文件的
+let Tlist_WinWidt =28                   "设置taglist的宽度
+let Tlist_Exit_OnlyWindow=1             "如果taglist窗口是最后一个窗口，则退出vim
+let Tlist_Use_Right_Window=1           "在右侧窗口中显示taglist窗口
+let Tlist_Use_Left_Windo =1             "在左侧窗口中显示taglist窗口
+Bundle 'majutsushi/tagbar'
+"nmap <Leader>tb :TagbarToggle<CR>      "快捷键设置
+let g:tagbar_ctags_bin='ctags'          "ctags程序的路径
+let g:tagbar_width=20                   "窗口宽度的设置
+map <F3> :Tagbar<CR>
+map <C-t> :Tagbar<CR>
+"autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()  "如果是c语言的程序的话，tagbar自动开启
+
+
+Bundle 'scrooloose/nerdtree'
+let NERDTreeWinPos='left'
+let NERDTreeWinSize=25
+let g:NERDTreeNodeDelimiter = "\u00a0"
+"let g:NERDTreeNodeDelimiter = ''
+"map <F2> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+"打开NERDTree
+"autocmd vimenter * NERDTree
+"光标默认在主窗口
+"wincmd w
+"autocmd VimEnter * wincmd w
+"vim 退出时直接关闭NERDTree
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+Bundle 'bling/vim-airline'
+set laststatus=2
+
+Bundle 'scrooloose/nerdcommenter'
+
+let mapleader = ','
+nnoremap <C-l> gt
+nnoremap <C-h> gT
+nnoremap <leader>t : tabe<CR>
+
+"vim-multiple-cursors 多光标选中
+"Bundle 'terryma/vim-multiple-cursors'
+"let g:multi_cursor_use_default_mapping=0
+"let g:multi_cursor_start_key='<C-m>'
+"let g:multi_cursor_start_word_key='g<C-m>'
+"let g:multi_cursor_next_key='<C-m>'
+"let g:multi_cursor_prev_key='<C-p>'
+"let g:multi_cursor_skip_key='<C-x>'
+"let g:multi_cursor_quit_key='<C-j>'
+
+"MatchTagAlways
+Bundle 'Valloric/MatchTagAlways'
+
+"Markdown语法高亮
+Bundle 'godlygeek/tabular'
+"Bundle 'plasticboy/vim-markdown'
+"markdown实时显示
+Bundle 'suan/vim-instant-markdown'
+
+
+"indentLine 代码缩进线标志线
+Plugin 'Yggdroot/indentLine'
+let g:indentLine_char = '┆'
+let g:indentLine_color_term = 239
+let g:indentLine_enabled = 1
+"映射到ctrl+i键
+"map <C-i> :IndentLinesToggle<CR>
+
+""buquansddiuhiubksa
+"delimitMate 自动补全引号(单引号/双引号/反引号), 括号(()[]{})
+Bundle 'Raimondi/delimitMate'
+" 补全菜单的开启与关闭
+set completeopt=longest,menu                    " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+let g:ycm_min_num_of_chars_for_completion=2             " 从第2个键入字符就开始罗列匹配项
+let g:ycm_cache_omnifunc=0                      " 禁止缓存匹配项,每次都重新生成匹配项i
+"let g:ycm_autoclose_preview_window_after_completion=1       " 智能关闭自动补全窗口
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif         " 离开插入模式后自动关闭预览窗口
+
+" 补全菜单中各项之间进行切换和选取：默认使用tab  s-tab进行上下切换，使用空格选取。可进行自定义设置：
+"let g:ycm_key_list_select_completion=['<c-n>']
+"let g:ycm_key_list_select_completion = ['<Down>']      " 通过上下键在补全菜单中进行切换
+"let g:ycm_key_list_previous_completion=['<c-p>']
+"let g:ycm_key_list_previous_completion = ['<Up>']
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"    " 回车即选中补全菜单中的当前项
+
+" 开启各种补全引擎
+let g:ycm_collect_identifiers_from_tags_files=1         " 开启 YCM 基于标签引擎
+let g:ycm_auto_trigger = 1                  " 开启 YCM 基于标识符补全，默认为1
+let g:ycm_seed_identifiers_with_syntax=1                " 开启 YCM 基于语法关键字补全
+let g:ycm_complete_in_comments = 1              " 在注释输入中也能补全
+let g:ycm_complete_in_strings = 1               " 在字符串输入中也能补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 0 " 注释和字符串中的文字也会被收入补全
+let g:ycm_key_invoke_completion = '<c-z>'
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+  \             're!\[.*\]\s'],
+  \   'ocaml' : ['.', '#'],
+  \   'cpp,objcpp' : ['->', '.', '::'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'ruby' : ['.', '::'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
+" 重映射快捷键
+"上下左右键的行为 会显示其他信息,inoremap由i 插入模式和noremap不重映射组成，只映射一层，不会映射到映射的映射
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+inoremap {{ {<CR><CR>}<ESC>kia<ESC>gg=G<C-o><C-o>zzws
+nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>           " force recomile with syntastic
+nnoremap <leader>lo :lopen<CR>    "open locationlist
+nnoremap <leader>lc :lclose<CR>    "close locationlist
+inoremap <leader><leader> <C-x><C-o>
+
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到定义处
+let g:ycm_confirm_extra_conf=0                  " 关闭加载.ycm_extra_conf.py确认提示
+
+" An example for a vimrc file.
+"
+" Maintainer:	Bram Moolenaar <Bram@vim.org>
+" Last change:	2017 Sep 20
+"
+" To use it, copy it to
+"     for Unix and OS/2:  ~/.vimrc
+"	      for Amiga:  s:.vimrc
+"  for MS-DOS and Win32:  $VIM\_vimrc
+"	    for OpenVMS:  sys$login:.vimrc
+
+" When started as "evim", evim.vim will already have done these settings.
+if v:progname =~? "evim"
+  finish
+endif
+
+" Get the defaults that most users want.
+source $VIMRUNTIME/defaults.vim
+
+if has("vms")
+ set nobackup		" do not keep a backup file, use versions instead
+else
+  set backup		" keep a backup file (restore to previous version)
+  if has('persistent_undo')
+    set undofile	" keep an undo file (undo changes after closing)
+  endif
+endif
+
+if &t_Co > 2 || has("gui_running")
+  " Switch on highlighting the last used search pattern.
+  set hlsearch
+endif
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+  au!
+
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=78
+
+  augroup END
+
+else
+
+  set autoindent	 always set autoindenting on
+
+endif " has("autocmd")
+
+" Add optional packages.
+"
+" The matchit plugin makes the % command work better, but it is not backwards
+" compatible.
+" The ! means the package won't be loaded right away but when plugins are
+" loaded during initialization.
+if has('syntax') && has('eval')
+  packadd! matchit
+endif
+
+"F3快捷键打开/关闭nerdtree
+map <F3> :NERDTreeMirror<CR>
+map <F3> :NERDTreeToggle<CR>
+"nerdtree自动打开
+autocmd vimenter * NERDTree
+
+set nocompatible               " be iMproved  
+ filetype off                   " required!  
+  
+ set rtp+=~/.vim/bundle/Vundle.vim  
+ call vundle#begin()  
+  
+" let Vundle manage Vundle  
+" required!   
+"这是vundle本身的设置  
+ Plugin 'gmarik/vundle.vim'    
+   
+ " My Bundles here:  
+ "这里是设置你自己自定义的插件的设置vundle设置，注意:下载的插件git为:https://github.com/godlygeek/tabular.git，则设置为Bundle 'godlygeek/tabular';https://github.com/gmarik/vundle.git设置则为 Bundle 'gmarik/vundle'    
+ " original repos on github  
+ Plugin 'godlygeek/tabular'  
+  
+ " vim-scripts repos，vim-scripts的访问地址，格式则如下:  
+ Plugin 'L9'  
+ Plugin 'FuzzyFinder'  
+ Plugin 'git://github.com/scrooloose/nerdtree.git'
+ " non github repos ，非git的访问地址的，格式如下:  
+" Bundle 'git://git.wincent.com/command-t.git'
+call vundle#end()	
+ " ...  
+  
+ filetype plugin indent on     " required!  
+ "  
+ " Brief help  
+ " :BundleList          - list configured bundles  
+ " :BundleInstall(!)    - install(update) bundles  
+ " :BundleSearch(!) foo - search(or refresh cache first) for foo  
+ " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles  
+ "  
+ " see :h vundle for more details or wiki for FAQ  
+ " NOTE: comments after Bundle command are not allowed..
+
+
+" vim-powerline 状态栏美化 
+"---------------------------------------
+"let g:Powerline_symbols = 'fancy'
+"set laststatus=2
+"------------
+"---------------------------
+""c++的头文件
+map <F2> :call SetTitle()<CR>
+func SetTitle()
+let l = 0
+let l = l + 1 | call setline(l,'//-------------------------------------------------')
+let l = l + 1 | call setline(l,'//Created by HanJinyu')
+let l = l + 1 | call setline(l,'//Created Time :'.strftime('%c'))
+let l = l + 1 | call setline(l,'//File Name :'.expand('%'))
+let l = l + 1 | call setline(l,'//-------------------------------------------------')
+let l = l + 1 | call setline(l,'')
+let l = l + 1 | call setline(l,'#include <stdio.h>')
+let l = l + 1 | call setline(l,'#include <string.h>')
+let l = l + 1 | call setline(l,'#include <iostream>')
+let l = l + 1 | call setline(l,'#include <algorithm>')
+let l = l + 1 | call setline(l,'#include <vector>')
+let l = l + 1 | call setline(l,'#include <queue>')
+let l = l + 1 | call setline(l,'#include <set>')
+let l = l + 1 | call setline(l,'#include <map>')
+let l = l + 1 | call setline(l,'#include <list>')
+let l = l + 1 | call setline(l,'#include <map>')
+let l = l + 1 | call setline(l,'#include <string>')
+let l = l + 1 | call setline(l,'#include <math.h>')
+let l = l + 1 | call setline(l,'#include <stdlib.h>')
+let l = l + 1 | call setline(l,'#include <time.h>')
+let l = l + 1 | call setline(l,'using namespace std;')
+let l = l + 1 | call setline(l,'typedef double db;')
+let l = l + 1 | call setline(l,'typedef long long ll;')
+let l = l + 1 | call setline(l,'const int maxn = 200005;')
+let l = l + 1 | call setline(l,'')
+let l = l + 1 | call setline(l,'int main()')
+let l = l + 1 | call setline(l,'{')
+let l = l + 1 | call setline(l,'      freopen("in.txt","r",stdin);')
+let l = l + 1 | call setline(l,'    //freopen("out.txt","w",stdout);')
+let l = l + 1 | call setline(l,' ')
+let l = l + 1 | call setline(l,' ')
+let l = l + 1 | call setline(l,'     return 0;')
+let l = l + 1 | call setline(l,'}')
+endfunc
+
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+inoremap { {<CR>}<Esc>O
+autocmd Syntax html,vim inoremap < <lt>><Esc>i| inoremap > <c-r>=ClosePair('>')<CR>
+inoremap ) <c-r>=ClosePair(')')<CR>
+inoremap ] <c-r>=ClosePair(']')<CR>
+inoremap } <c-r>=CloseBracket()<CR>
+inoremap " <c-r>=QuoteDelim('"')<CR>
+inoremap ' <c-r>=QuoteDelim("'")<CR>
+
+function ClosePair(char)
+ if getline('.')[col('.') - 1] == a:char
+ return "\<Right>"
+ else
+ return a:char
+ endif
+endf
+
+function CloseBracket()
+ if match(getline(line('.') + 1), '\s*}') < 0
+ return "\<CR>}"
+ else
+ return "\<Esc>j0f}a"
+ endif
+endf
+
+function QuoteDelim(char)
+ let line = getline('.')
+ let col = col('.')
+ if line[col - 2] == "\\"
+ return a:char
+ elseif line[col - 1] == a:char
+ return "\<Right>"
+ else
+ return a:char.a:char."\<Esc>i"
+ endif
+endf
+
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+" For cursor moving in insert mode(Not recommended)
+"inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
+"inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
+"inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
+"inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
+" Or set this.
+"let g:neocomplete#enable_cursor_hold_i = 1
+" Or set this.
+"let g:neocomplete#enable_insert_char_pre = 1
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_server_log_level = 'info'
+let g:ycm_min_num_identifier_candidate_chars = 2
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+let g:ycm_key_invoke_completion = '<c-z>'
+set completeopt=menu,menuone
+
+noremap <c-z> <NOP>
+
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
+exec 'cd ' . fnameescape('~/vimprojects')
+
+
+if has("vms") 
+    set nobackup " do not keep a backup file, use versions instead " else "set backup " keep a backup file 
+
+
+
+
